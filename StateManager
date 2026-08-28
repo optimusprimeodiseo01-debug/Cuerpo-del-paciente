@@ -1,0 +1,18 @@
+import json
+import os
+
+class StateManager:
+    def __init__(self, filepath="data/state_persistence.json"):
+        self.filepath = filepath
+        self.state = {"active_trades": {}, "balance": {}}
+        self.load_state()
+
+    def load_state(self):
+        if os.path.exists(self.filepath):
+            with open(self.filepath, 'r') as f:
+                self.state = json.load(f)
+
+    def save_state(self):
+        os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
+        with open(self.filepath, 'w') as f:
+            json.dump(self.state, f, indent=4)
